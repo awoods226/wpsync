@@ -1,29 +1,22 @@
-import React, { Component } from "react";
-import "./app.css";
-import ReactImage from "./react.png";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Home from './components/Home';
+import NavHeader from './components/NavHeader';
+import OldPages from './components/OldPages';
+import NewPages from './components/NewPages';
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { username: null };
-  }
+import './app.css';
 
-  componentDidMount() {
-    fetch("/api/getUsername")
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
-  }
+const App = () => (
+  <div>
+    <NavHeader />
+    <Switch>
+      {/* these are good */}
+      <Route exact path="/" component={Home} />
+      <Route path="/oldpages" render={props => <OldPages {...props} />} />
+      <Route path="/newpages" render={props => <NewPages {...props} />} />
+    </Switch>
+  </div>
+);
 
-  render() {
-    return (
-      <div>
-        {this.state.username ? (
-          <h1>Hello {this.state.username}</h1>
-        ) : (
-          <h1>Loading.. please wait!</h1>
-        )}
-        <img src={ReactImage} alt="react" />
-      </div>
-    );
-  }
-}
+export default App;

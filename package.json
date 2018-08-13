@@ -1,21 +1,31 @@
 {
-  "name": "simple-react-full-stack",
+  "name": "WP-Sync",
   "version": "1.0.0",
-  "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
+  "description": "Move and modify pages between Wordpress sites",
   "main": "src/server/index.js",
   "scripts": {
     "start": "node src/server/index.js",
     "build": "webpack --mode production",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-    "server": "nodemon src/server/index.js",
+    "server": "nodemon src/server/index.js --inspect",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Sandeep Raveesh",
+  "author": "Anubis Engineering LLC",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "lowdb": "^1.0.0",
+    "morgan": "^1.9.0",
+    "prop-types": "^15.6.2",
     "react": "^16.3.1",
-    "react-dom": "^16.3.1"
+    "react-dom": "^16.3.1",
+    "react-router-dom": "^4.3.1",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.2",
+    "superagent": "^3.8.3",
+    "wpapi": "^1.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

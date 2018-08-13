@@ -7,6 +7,15 @@
   "rules": {
     "no-console": "off",
     "comma-dangle": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "linebreak-style": "off",
+    "react/no-unused-state": "off",
+    "no-unused-vars": "off",
+    "no-plusplus": "off",
+    "no-underscore-dangle": "off",
+    "array-callback-return": "off",
+    "no-debugger": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "radix": "off"
   }
 }
