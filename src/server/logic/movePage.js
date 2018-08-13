@@ -24,7 +24,7 @@ class MovePage {
         .find({ slug: page.slug })
         .value();
       if (dbFound) {
-        resolve(dbFound);
+        return resolve(dbFound);
       }
       resolve(
         this.doesPageExist(page)

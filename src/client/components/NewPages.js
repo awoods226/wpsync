@@ -24,7 +24,6 @@ class NewPages extends Component {
     fetch('http://localhost:8081/movePages')
       .then(res => res.json())
       .then((pages) => {
-        debugger;
         this.setState({ pageList: pages, fetched: true, fetching: false });
       });
   }
@@ -56,7 +55,6 @@ class NewPages extends Component {
                 <Icon name="redo" />
               </Button.Content>
             </Button>
-            <Divider />
           </Segment>
           <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}

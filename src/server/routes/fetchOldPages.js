@@ -5,9 +5,8 @@ const router = express.Router();
 
 /* GET old-pages listing. */
 router.get('/', (req, res) => {
-  const pageFetch = new PageFetch('yourcrosspointnv.org');
+  const pageFetch = new PageFetch('yourcrosspointnv.org', 'pages');
   pageFetch.retrievePages().then((d) => {
-    debugger;
     const pages = pageFetch.getPagesFromDB();
     res.send(pages);
   });

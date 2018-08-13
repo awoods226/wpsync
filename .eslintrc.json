@@ -16,6 +16,7 @@
     "array-callback-return": "off",
     "no-debugger": "off",
     "react/jsx-one-expression-per-line": "off",
-    "radix": "off"
+    "radix": "off",
+    "consistent-return": "off"
   }
 }

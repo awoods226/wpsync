@@ -41,7 +41,6 @@ class OldPages extends Component {
                 <Icon name="arrow right" />
               </Button.Content>
             </Button>
-            <Divider />
           </Segment>
           <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}
