@@ -8,10 +8,16 @@ import PageList from './PageList';
 class NewPages extends Component {
   constructor(props) {
     super(props);
-    this.state = { pageList: [], fetched: false, isFetching: false };
+    this.state = {
+      pageList: [],
+      fetched: false,
+      isFetching: false,
+      selectedPage: undefined
+    };
   }
 
   componentDidMount() {
+    // fetch pages from db
     fetch('http://localhost:8081/displayNewPages')
       .then(res => res.json())
       .then((pages) => {
@@ -29,15 +35,22 @@ class NewPages extends Component {
   }
 
   fetchPages() {
+    // fetch pages from wordpress
     fetch('http://localhost:8081/fetchNewPages')
-      .then(res => res.json())
+      .then(res => res.json())s
       .then((pages) => {
         this.setState({ pageList: pages });
       });
   }
 
+  handlePageSelect(page) {
+    this.setState({ selectedPage: page });
+  }
+
   render() {
-    const { pageList, fetched, fetching } = this.state;
+    const {
+      pageList, fetched, fetching, selectedPage
+    } = this.state;
     return (
       <div>
         <Container>
@@ -58,7 +71,13 @@ class NewPages extends Component {
           </Segment>
           <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}
-            {pageList.length && <PageList pages={pageList} />}
+            {pageList.length && (
+              <PageList
+                pages={pageList}
+                onRowSelected={i => this.handlePageSelect(i)}
+                selectedPage={selectedPage}
+              />
+            )}
             {fetching && <Loader />}
           </Segment>
         </Container>

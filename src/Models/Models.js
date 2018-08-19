@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 const Page = PropTypes.shape({
+  id: PropTypes.number,
   date: PropTypes.string,
   date_gmt: PropTypes.date_gmt,
   slug: PropTypes.string,
