@@ -8,7 +8,11 @@ import PageList from './PageList';
 class OldPages extends Component {
   constructor(props) {
     super(props);
-    this.state = { pageList: [], fetched: false, isFetching: false };
+    this.state = {
+      pageList: [],
+      fetched: false,
+      isFetching: false
+    };
   }
 
   componentDidMount() {
@@ -34,7 +38,7 @@ class OldPages extends Component {
       <div>
         <Container>
           <Header as="h1">Old Pages from DB</Header>
-          <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+          <Segment vertical style={{ margin: '1em 0em 0em', padding: '1em 0em' }}>
             <Button animated onClick={() => this.fetchPages()} disabled={fetched || fetching}>
               <Button.Content visible>Retrieve Pages</Button.Content>
               <Button.Content hidden>
@@ -42,7 +46,7 @@ class OldPages extends Component {
               </Button.Content>
             </Button>
           </Segment>
-          <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+          <Segment vertical style={{ margin: '1em 0em 0em', padding: '1em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}
             {pageList.length && <PageList pages={pageList} />}
             {fetching && <Loader />}

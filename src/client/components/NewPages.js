@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../app.css';
 import {
-  Container, Divider, Header, Segment, Button, Icon, Loader
+  Container, Header, Segment, Button, Icon, Loader, Form, Select
 } from 'semantic-ui-react';
+import _ from 'lodash';
 import PageList from './PageList';
 
 class NewPages extends Component {
@@ -12,7 +13,10 @@ class NewPages extends Component {
       pageList: [],
       fetched: false,
       isFetching: false,
-      selectedPage: undefined
+      selectedPage: undefined,
+      displayReparent: false,
+      parentFrom: undefined,
+      parentTo: undefined
     };
   }
 
@@ -23,6 +27,24 @@ class NewPages extends Component {
       .then((pages) => {
         this.setState({ pageList: pages });
       });
+  }
+
+  getParents() {
+    const { pageList } = this.state;
+    return _(pageList)
+      .map('parent')
+      .uniq()
+      .sortBy()
+      .map(p => ({
+        key: p,
+        text: p,
+        value: p
+      }))
+      .value();
+  }
+
+  handleChange(e, name, value) {
+    this.setState({ [name]: value.value });
   }
 
   movePages() {
@@ -37,25 +59,45 @@ class NewPages extends Component {
   fetchPages() {
     // fetch pages from wordpress
     fetch('http://localhost:8081/fetchNewPages')
-      .then(res => res.json())s
+      .then(res => res.json())
       .then((pages) => {
         this.setState({ pageList: pages });
       });
+  }
+
+  handleReparentClick() {
+    this.setState({ displayReparent: true });
   }
 
   handlePageSelect(page) {
     this.setState({ selectedPage: page });
   }
 
+  handleReparentSave() {
+    const { parentFrom, parentTo } = this.state;
+    fetch(`http://localhost:8081/reparent/${parentFrom}-${parentTo}`)
+      .then(res => res.json())
+      .then((res) => {
+        this.setState({ displayReparent: false });
+      });
+    console.log(this.state);
+  }
+
   render() {
     const {
-      pageList, fetched, fetching, selectedPage
+      pageList,
+      fetched,
+      fetching,
+      selectedPage,
+      displayReparent,
+      parentFrom,
+      parentTo
     } = this.state;
     return (
       <div>
         <Container>
           <Header as="h1">New Pages</Header>
-          <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+          <Segment vertical style={{ margin: '.25em 0em 0em', padding: '1em 0em' }}>
             <Button animated onClick={() => this.movePages()} disabled={fetching}>
               <Button.Content visible>Move Pages</Button.Content>
               <Button.Content hidden>
@@ -68,8 +110,35 @@ class NewPages extends Component {
                 <Icon name="redo" />
               </Button.Content>
             </Button>
+            <Button animated onClick={() => this.handleReparentClick()}>
+              <Button.Content visible>Reparent</Button.Content>
+              <Button.Content hidden>
+                <Icon name="code branch" />
+              </Button.Content>
+            </Button>
           </Segment>
-          <Segment vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+          {displayReparent && (
+            <Segment inverted>
+              <Select
+                placeholder="Select From Parent"
+                name="parentFrom"
+                options={this.getParents()}
+                onChange={(e, d) => this.handleChange(e, 'parentFrom', d)}
+                value={parentFrom}
+              />
+              <Select
+                placeholder="Select To Parent"
+                options={this.getParents()}
+                onChange={(e, d) => this.handleChange(e, 'parentTo', d)}
+                value={parentTo}
+                name="parentTo"
+              />
+              <Button onClick={() => this.handleReparentSave()} color="blue" type="submit">
+                Save
+              </Button>
+            </Segment>
+          )}
+          <Segment vertical style={{ margin: '.5em 0em 0em', padding: '1em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}
             {pageList.length && (
               <PageList

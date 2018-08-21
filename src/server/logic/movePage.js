@@ -96,6 +96,11 @@ class MovePage {
     return req;
   }
 
+  changeParent(from, to) {
+    const pages = this.db.get('newPages').filter(p => p.parent === from);
+    console.log(`from: ${from} to: ${to}`);
+  }
+
   getOldPageFromDb(slug) {
     return this.db
       .get('pages')
