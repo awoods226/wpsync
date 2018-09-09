@@ -83,6 +83,15 @@ class NewPages extends Component {
     console.log(this.state);
   }
 
+  handleSetExcerptClick() {
+    this.setState({ fetching: true });
+    fetch('http://localhost:8081/setExcerpts')
+      .then(res => res.json())
+      .then((res) => {
+        this.setState({ fetching: false });
+      });
+  }
+
   render() {
     const {
       pageList,
@@ -114,6 +123,12 @@ class NewPages extends Component {
               <Button.Content visible>Reparent</Button.Content>
               <Button.Content hidden>
                 <Icon name="code branch" />
+              </Button.Content>
+            </Button>
+            <Button animated onClick={() => this.handleSetExcerptClick()} disabled={fetching}>
+              <Button.Content visible>Set Excerpts</Button.Content>
+              <Button.Content hidden>
+                <Icon name="gem" />
               </Button.Content>
             </Button>
           </Segment>

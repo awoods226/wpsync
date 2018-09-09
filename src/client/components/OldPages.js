@@ -11,6 +11,7 @@ class OldPages extends Component {
     this.state = {
       pageList: [],
       fetched: false,
+      selectedPage: undefined,
       isFetching: false
     };
   }
@@ -32,8 +33,14 @@ class OldPages extends Component {
       });
   }
 
+  handlePageSelect(page) {
+    this.setState({ selectedPage: page });
+  }
+
   render() {
-    const { pageList, fetched, fetching } = this.state;
+    const {
+      pageList, fetched, fetching, selectedPage
+    } = this.state;
     return (
       <div>
         <Container>
@@ -48,7 +55,13 @@ class OldPages extends Component {
           </Segment>
           <Segment vertical style={{ margin: '1em 0em 0em', padding: '1em 0em' }}>
             {pageList.length && <span>{`Page Count: ${pageList.length}`}</span>}
-            {pageList.length && <PageList pages={pageList} />}
+            {pageList.length && (
+              <PageList
+                pages={pageList}
+                selectedPage={selectedPage}
+                onRowSelected={i => this.handlePageSelect(i)}
+              />
+            )}
             {fetching && <Loader />}
           </Segment>
         </Container>

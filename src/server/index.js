@@ -9,6 +9,7 @@ const movePages = require('./routes/movePages');
 const displayNewPages = require('./routes/displayNewPages');
 const fetchNewPages = require('./routes/fetchNewPages');
 const reparent = require('./routes/reparent');
+const setExcerpts = require('./routes/setExcerpts');
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
@@ -31,4 +32,5 @@ app.use('/movePages', movePages);
 app.use('/displayNewPages', displayNewPages);
 app.use('/fetchNewPages', fetchNewPages);
 app.use('/reparent', reparent);
+app.use('/setExcerpts', setExcerpts);
 app.listen(8081, () => console.log('Listening on port 8081!'));

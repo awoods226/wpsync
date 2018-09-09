@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Icon, Label, Menu, Table, Form, Segment, Button
+  TextArea, Table, Form, Segment, Button
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Models from '../../Models/Models';
@@ -24,10 +24,15 @@ class PageList extends Component {
         <Table.Cell>{p.id}</Table.Cell>
         <Table.Cell>{p.slug}</Table.Cell>
         <Table.Cell>{p.title.rendered}</Table.Cell>
+        <Table.Cell>{p.excerpt.rendered}</Table.Cell>
         <Table.Cell>{p.parent}</Table.Cell>
       </Table.Row>
     ));
     return pageRows;
+  }
+
+  renderContent(content) {
+    return content.rendered;
   }
 
   render() {
@@ -50,6 +55,18 @@ class PageList extends Component {
                 />
                 <Form.Input fluid label="parent" placeholder="parent" value={selectedPage.parent} />
               </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Field>
+                  <TextArea autoHeight value={this.renderContent(selectedPage.content)} />
+                </Form.Field>
+                {/* <Form.Input
+                  fluid
+                  label="content"
+                  control={<TextArea autoHeight />}
+                  placeholder="content"
+                  value={this.renderContent(selectedPage.content)}
+                /> */}
+              </Form.Group>
               <Button onClick={() => onUpdateClicked()} color="blue" type="submit">
                 Save
               </Button>
@@ -68,6 +85,7 @@ class PageList extends Component {
               <Table.HeaderCell>ID</Table.HeaderCell>
               <Table.HeaderCell>Slug</Table.HeaderCell>
               <Table.HeaderCell>Title</Table.HeaderCell>
+              <Table.HeaderCell>Has Excerpt</Table.HeaderCell>
               <Table.HeaderCell>Parent</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

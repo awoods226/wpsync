@@ -22,7 +22,7 @@ class PageFetch {
     return new Promise((resolve, reject) => {
       this.wp
         .pages()
-        .perPage(20)
+        .perPage(30)
         .get()
         .then((data) => {
           console.log('getting page 1');
@@ -34,7 +34,7 @@ class PageFetch {
           this.pageCount = parseInt(data._paging.totalPages);
           console.log(`total pages ${this.pageCount}`);
           // start index at 2 since we already fetched the first page
-          for (let i = 2; i <= this.pageCount; i++) {
+          for (let i = 1; i <= this.pageCount; i++) {
             console.log(`getting page ${i}`);
             this.getPage(i);
           }
@@ -46,10 +46,11 @@ class PageFetch {
   getPage(page) {
     this.wp
       .pages()
-      .perPage(20)
+      .perPage(30)
       .page(page)
       .get()
       .then((data) => {
+        console.log(`Page ${page} has pagecount: ${data.length}`);
         data.map((p) => {
           this.savePage(p);
           this.siteCount++;
@@ -69,12 +70,17 @@ class PageFetch {
         .find({ id: page.id })
         .value();
       if (exists) {
-        return;
+        this.db
+          .get(this.dbsetName)
+          .find({ id: page.id })
+          .assign({ ...page })
+          .write();
+      } else {
+        this.db
+          .get(this.dbsetName)
+          .push({ ...page })
+          .write();
       }
-      this.db
-        .get(this.dbsetName)
-        .push({ ...page })
-        .write();
     } catch (error) {
       console.log(error);
     }

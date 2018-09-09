@@ -101,6 +101,39 @@ class MovePage {
     console.log(`from: ${from} to: ${to}`);
   }
 
+  createDummyPromise() {
+    return new Promise((r) => {
+      r();
+    });
+  }
+
+  setExcerpt(page) {
+    const oldPage = this.getOldPageFromDb(page.slug);
+    if (!oldPage || !oldPage.yoast_meta) {
+      console.log(`Could not find page matching slug ${page.slug}`);
+      return this.createDummyPromise();
+    }
+    superagent
+      .post(`${this.endpoint}/wp-json/wp/v2/pages/${page.id}`)
+      .auth(this.credentials.username, this.credentials.password)
+      .send({ excerpt: oldPage.yoast_meta.yoast_wpseo_metadesc })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  setExcerpts() {
+    const pages = this.db
+      .get('newPages')
+      .filter(p => p.excerpt.rendered !== '')
+      .value();
+    return Promise.all(
+      pages.map((p) => {
+        setTimeout(() => this.setExcerpt(p), 2000);
+      })
+    );
+  }
+
   getOldPageFromDb(slug) {
     return this.db
       .get('pages')

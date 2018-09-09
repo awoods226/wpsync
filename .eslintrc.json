@@ -17,6 +17,7 @@
     "no-debugger": "off",
     "react/jsx-one-expression-per-line": "off",
     "radix": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "class-methods-use-this": "off"
   }
 }
